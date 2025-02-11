@@ -1,10 +1,8 @@
 import sqlite3
 
-# Use an in-memory database for online compilers
-conn = sqlite3.connect(":memory:")  
+
 cursor = conn.cursor()
 
-# Create Artists table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS artists (
     ArtistId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,7 +10,6 @@ CREATE TABLE IF NOT EXISTS artists (
 )
 """)
 
-# Create Albums table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS albums (
     AlbumId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +19,6 @@ CREATE TABLE IF NOT EXISTS albums (
 )
 """)
 
-# Create Songs table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS songs (
     SongId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +30,6 @@ CREATE TABLE IF NOT EXISTS songs (
 )
 """)
 
-# Insert Artists
 cursor.executemany("""
 INSERT OR IGNORE INTO artists (Name) VALUES (?)
 """, [
@@ -44,7 +39,6 @@ INSERT OR IGNORE INTO artists (Name) VALUES (?)
     ("Maroon 5",)
 ])
 
-# Insert Albums
 cursor.executemany("""
 INSERT OR IGNORE INTO albums (Title, ArtistId) 
 VALUES (?, (SELECT ArtistId FROM artists WHERE Name = ?))
@@ -55,7 +49,6 @@ VALUES (?, (SELECT ArtistId FROM artists WHERE Name = ?))
     ("It Won't Be Soon Before Long (International Version)", "Maroon 5")
 ])
 
-# Insert Songs
 cursor.executemany("""
 INSERT OR IGNORE INTO songs (Title, ArtistId, AlbumId) 
 VALUES (
@@ -70,10 +63,8 @@ VALUES (
     ("Won't Go Home Without You", "Maroon 5", "It Won't Be Soon Before Long (International Version)")
 ])
 
-# Commit changes
 conn.commit()
 
-# Function to search for albums or songs
 def search_database():
     while True:
         choice = input("\nDo you want to search by (1) Album or (2) Song? (Type 'exit' to quit): ").strip().lower()
@@ -123,8 +114,6 @@ def search_database():
         else:
             print("\n❌ Invalid choice. Please enter 1 for Album or 2 for Song.")
 
-# Start the search loop
 search_database()
 
-# Close connection
 conn.close()
