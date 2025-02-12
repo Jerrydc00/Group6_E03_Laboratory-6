@@ -70,7 +70,7 @@ def search_database():
         choice = input("\nDo you want to search by (1) Album or (2) Song? (Type 'exit' to quit): ").strip().lower()
         
         if choice == "exit":
-            print("\n🎵 Exiting program. Goodbye!")
+            print("\n Exiting program. Goodbye!")
             break
         
         if choice == "1":
@@ -87,11 +87,11 @@ def search_database():
             songs = cursor.fetchall()
 
             if songs:
-                print(f"\n🎵 Songs from the album '{album_name}':")
+                print(f"\n Songs from the album '{album_name}':")
                 for song in songs:
                     print(f"- {song[0]} by {song[1]}")
             else:
-                print(f"\n❌ No songs found for album '{album_name}'. Please try again.")
+                print(f"\n No songs found for album '{album_name}'. Please try again.")
 
         elif choice == "2":
             song_name = input("\nEnter song name: ").strip()
@@ -107,12 +107,12 @@ def search_database():
             song = cursor.fetchone()
 
             if song:
-                print(f"\n🎵 Song Found: '{song[0]}' by {song[1]} from the album '{song[2]}'")
+                print(f"\n Song Found: '{song[0]}' by {song[1]} from the album '{song[2]}'")
             else:
-                print(f"\n❌ No song found with the name '{song_name}'. Please try again.")
+                print(f"\n No song found with the name '{song_name}'. Please try again.")
 
         else:
-            print("\n❌ Invalid choice. Please enter 1 for Album or 2 for Song.")
+            print("\n Invalid choice. Please enter 1 for Album or 2 for Song.")
 
 search_database()
 
