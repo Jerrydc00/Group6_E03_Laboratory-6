@@ -117,3 +117,32 @@ def search_database():
 search_database()
 
 conn.close()
+
+print("\n=== Customer Names ===")
+    names = []
+    for rec in customers_collection.find({}, {"_id": 0, "LastName": 1, "FirstName": 1}):
+        names.append([rec["FirstName"], rec["LastName"]])
+    print(tabulate(names, headers=["First Name", "Last Name"], tablefmt='grid'))
+    
+    print("\n=== Customers with LastName starting with 'G' ===")
+    rgx = re.compile('^G.*?$', re.IGNORECASE)
+    cursor = customers_collection.find({"LastName": rgx})
+    
+    g_customers = []
+    headers = None
+    num_docs = 0
+    for document in cursor:
+        num_docs += 1
+        formatted_doc = format_customer_data(document)
+        if not headers:
+            headers = formatted_doc.keys()
+        g_customers.append(formatted_doc.values())
+    
+    print(tabulate(g_customers, headers=headers, tablefmt='grid'))
+    print(f"\nTotal customers with last name starting with 'G': {num_docs}")
+    
+    client.close()
+
+if __name__ == '__main__':
+    main()
+
